@@ -1,0 +1,4 @@
+import '@umijs/max/typings';
+
+
+
