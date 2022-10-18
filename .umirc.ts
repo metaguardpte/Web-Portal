@@ -1,5 +1,7 @@
 import { defineConfig } from '@umijs/max';
 
+const { PROXY_URL } = process.env;
+
 export default defineConfig({
   history: { type: 'hash' },
   antd: {},
@@ -27,5 +29,13 @@ export default defineConfig({
     default: 'zh-CN',
     baseSeparator: '-',
   },
+  plugins: ['./plugins/urlPlugin'],
+  proxy: {
+  '/api': {
+    'target': PROXY_URL,
+    'changeOrigin': true,
+    'pathRewrite': { '^/api' : '' },
+  }
+}
 });
 
