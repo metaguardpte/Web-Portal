@@ -11,8 +11,6 @@ deploy-website:
     only:
         - dev
         - master
-    tags:
-        - build-aws
     script:
         - yarn
         - npm run build
