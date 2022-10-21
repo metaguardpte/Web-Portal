@@ -93,7 +93,7 @@ const App: React.FC = () => {
         }} >
           <div style={{ width: 600, display: 'inline-block' }}>
             <div><img src='./logo-mini.png' style={{ marginTop: 30, height: 50, width: 50 }}></img></div>
-            <div>有人在 ZPass 上与你共享了项目</div>
+            <div>有人在 ZPass 上与你共享了项目(Testing)</div>
             <div style={{ display: needAuth ? 'none' : '' }}>
               <div></div>
               <div>
