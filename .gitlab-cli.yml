@@ -15,5 +15,5 @@ deploy-website:
         - yarn
         - npm run build
         - AWS_ACCESS_KEY_ID=$PROD_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$PROD_AWS_SECRET_ACCESS_KEY aws s3 cp $SOURCE_FOLDER s3://$BUCKET_NAME --recursive
-        #- aws cloudfront create-invalidation --distribution-id ENRYYMH1EWQLE --paths "/*"
+        - aws cloudfront create-invalidation --distribution-id E3A5M7S5N2ZUJK --paths "/*"
     when: manual
