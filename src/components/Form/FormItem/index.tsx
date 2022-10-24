@@ -24,7 +24,10 @@ const FormItem = (
                     const promise = new Promise((resolve, reject) => {
                         if (error) {
                             if (props.hasFeedback) {
-                                reject({ status: 'error', help: error[0].message });
+                                reject({
+                                    status: 'error',
+                                    help: error[0].message,
+                                });
                             } else {
                                 reject(error[0].message);
                             }
