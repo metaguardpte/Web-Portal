@@ -18,16 +18,24 @@ export default memo((props: Props) => {
 
     const handleError = () => {
         setSrc(props.defaulticon);
-        return false
+        return false;
     };
     return (
         <>
-        {src?<Avatar
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            {...props}
-            src={src}
-            onError={handleError}
-        ></Avatar>: props.defaulticon}
+            {src !== props.defaulticon ? (
+                <Avatar
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                    {...props}
+                    src={src}
+                    onError={handleError}
+                ></Avatar>
+            ) : (
+                props.defaulticon
+            )}
         </>
     );
 });

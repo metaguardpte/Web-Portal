@@ -1,19 +1,13 @@
-import {
-    IdCardH,
-    Key,
-    BankCard,
-    FolderOpen,
-} from '@icon-park/react';
+import { IdCardH, Key, BankCard, FolderOpen } from '@icon-park/react';
 
-export  enum VaultItemType {
-        Login = 0,
-        SecureNodes = 1,
-        CreditCard = 2,
-        Identity = 3,
-    }
+export enum VaultItemType {
+    Login = 0,
+    SecureNodes = 1,
+    CreditCard = 2,
+    Identity = 3,
+}
 
 const IconMap = (type: VaultItemType, size: number) => {
-    console.log(VaultItemType)
     switch (type) {
         case VaultItemType.Login: {
             const Icon = Key;

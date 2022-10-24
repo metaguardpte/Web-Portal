@@ -1,0 +1,137 @@
+ @color-purple: #464AFF;
+
+ .scroll {
+     &::-webkit-scrollbar {
+         width: 9px;
+     }
+
+     &::-webkit-scrollbar-thumb {
+         background: white;
+         border: 2px solid #e5e5e5;
+         border-right-width: 3px;
+         border-radius: 10px;
+     }
+
+     &::-webkit-scrollbar-track {
+         background: #dddddd;
+         border-radius: 10px;
+     }
+ }
+
+ .main {
+     text-align: center;
+     height: 100%;
+     background-position-x: center;
+     background-repeat: no-repeat;
+     display: flex;
+     flex-direction: column;
+     padding-right: 2;
+ }
+
+ .header {
+     height: 133px;
+     color: white;
+     gap: 10px;
+     width: 976px;
+     margin: auto;
+ }
+
+ .eeorIcon {
+     font-size: 50px;
+     color: #FF4A4A;
+     margin-bottom: 20px;
+ }
+
+ .content {
+     width: 976px;
+     display: flex;
+     flex-direction: column;
+     background-color: white;
+     overflow: hidden;
+     margin: auto;
+     height: 100%;
+     flex: 1;
+     border-radius: 10px;
+ }
+
+ .formHeader {
+     width: 650px;
+     height: 60px;
+     display: flex;
+     border-radius: 30px;
+     background-color: #F4F4FF;
+     margin: 20px auto;
+ }
+
+ .verifyButton {
+     color: white;
+     border-color: white;
+     border-radius: 11px;
+     background-color: @color-purple;
+     margin-top: 30px;
+     width: 100px;
+ }
+
+ .dividerCircle {
+     height: 30px;
+     width: 30px;
+     border: 1px solid @color-purple;
+     border-radius: 15px;
+     background-color: @color-purple;
+ }
+
+ .divider {
+     flex: 1;
+     border-top: 1px dashed @color-purple;
+     margin-top: 14px;
+     padding: 14px 2px 0 2px;
+ }
+
+ .titleMax {
+     font-size: 20px;
+     font-weight: 700;
+ }
+
+ .titleHeavy {
+     font-weight: 700;
+ }
+
+ .titleLight {
+     opacity: 0.6;
+ }
+
+ .titleSmall {
+     font-size: 12px;
+     opacity: 0.6;
+ }
+
+ .colorPurple {
+     color: @color-purple;
+ }
+
+ .importInput {
+     width: calc(100% - 50px);
+     border-color: @color-purple;
+     padding: 0 0 0 10px;
+     border-radius: 5;
+
+     input {
+         font-weight: 700;
+     }
+ }
+
+ .importButton {
+     color: white;
+     border-color: white;
+     border-radius: 5px;
+     background-color: @color-purple !important;
+     :hover{
+        
+     }
+ }
+
+ .download {
+     color: @color-purple;
+     font-size: 12px;
+     font-weight: 700;
+ }
