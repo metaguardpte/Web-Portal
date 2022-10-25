@@ -31,11 +31,11 @@ export default (props: { data: ShareDetail }) => {
     const intl = useIntl();
 
     const getInput = (item: ItemFormat) => {
-        const title = intl.formatMessage({ id: item.title });
+        item.title = intl.formatMessage({ id: item.title });
         switch (item.type) {
             case 'text':
                 return (
-                    <FormInput title={title} isEdit={false} copyValue={() => item.text}>
+                    <FormInput title={item.title} isEdit={false} copyValue={() => item.text}>
                         <Input value={item.text} />
                     </FormInput>
                 );
@@ -43,7 +43,7 @@ export default (props: { data: ShareDetail }) => {
                 return <PasswordInput item={item} />;
             case 'textArea':
                 return (
-                    <FormInput title={title} isEdit={false} copyValue={() => item.text}>
+                    <FormInput title={item.title} isEdit={false} copyValue={() => item.text}>
                         <Input.TextArea value={item.text} />
                     </FormInput>
                 );
@@ -52,7 +52,7 @@ export default (props: { data: ShareDetail }) => {
             case 'country':
                 return (
                     <FormInput
-                        title={title}
+                        title={item.title}
                         isEdit={false}
                         copyValue={() =>
                             intl.formatMessage({

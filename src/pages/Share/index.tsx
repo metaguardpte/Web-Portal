@@ -12,15 +12,17 @@ import FormGroup from '@/components/Form/FormGroup';
 import FormInput from '@/components/Form/FormInput';
 import FormItem from '@/components/Form/FormItem';
 import ImportCode from './components/ImportCode';
-import { num16To64, num64To16 } from '@/utils/radix';
+import { num64To16 } from '@/utils/radix';
 
 let itemId = '';
+let originKey = '';
 let secretKey = '';
 
 const urlParams = window.location.hash.replace('#', '').split('/');
 if (urlParams.length >= 2) {
     itemId = urlParams[0];
-    secretKey = urlParams[1];
+    originKey = urlParams[1];
+    secretKey = originKey;
     if (secretKey) secretKey = num64To16(secretKey);
 }
 
@@ -56,26 +58,24 @@ const App: React.FC = () => {
         if (secretKey && itemId) {
             setShowError(false);
             const res = await getShare(itemId, password);
-            if (res.fail) {
+            if (!res.fail && res.payload) {
+                const datas = res.payload;
+                setItemType(() => intl.formatMessage({ id: itemTypeMap[datas.itemType] }));
+                setSharer(datas.email);
+                setExpired(localTime(datas.expiredTime));
+                const detail = JSON.parse(await AES.decryptText(datas.detail, secretKey));
+                setData(detail);
+
+                const importCode = StringToBase64(`${itemId}+${datas.checkCode}+${originKey}`);
+                setImportKey(importCode);
+
+                setNeedAuth(false);
+                return true;
+            } else {
                 if (res.errorId === 'err_authentication_failed') {
                     setNeedAuth(true);
                 } else {
                     setShowError(true);
-                }
-            } else {
-                if (res.payload) {
-                    const datas = res.payload;
-                    setItemType(() => intl.formatMessage({ id: itemTypeMap[datas.itemType] }));
-                    setSharer(datas.email);
-                    setExpired(localTime(datas.expiredTime));
-                    const detail = JSON.parse(await AES.decryptText(datas.detail, secretKey));
-                    setData(detail);
-
-                    const importCode = StringToBase64(`${itemId}-${datas.checkCode}-${secretKey}`);
-                    setImportKey(importCode);
-
-                    setNeedAuth(false);
-                    return true;
                 }
             }
         }
@@ -95,18 +95,9 @@ const App: React.FC = () => {
         }
         setVerifyLoading(false);
     };
-    const test = async () => {
-        for (let i = 0; i < 100; i++) {
-            const s = await AES.generateKey();
-            const n64 = num16To64(s);
-            const o16 = num64To16(n64);
-            console.log(o16 === s);
-        }
-    };
 
     useEffect(() => {
         getShareInfo();
-        test();
     }, []);
 
     return (
