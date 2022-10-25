@@ -201,8 +201,10 @@ const App: React.FC = () => {
                                 }}
                             >
                                 <div
+                                    className={styles.titleHeavy}
                                     style={{
                                         margin: '20px  0 20px 0',
+                                        fontSize: 16,
                                         textAlign: 'left',
                                     }}
                                 >
@@ -247,7 +249,7 @@ const App: React.FC = () => {
                                 <div>
                                     <ExclamationCircleOutlined className={styles.eeorIcon} />
                                 </div>
-                                <div>
+                                <div className={styles.titleHeavy} style={{ fontSize: 16 }}>
                                     {intl.formatMessage({
                                         id: 'share.not.exist.tip',
                                     })}

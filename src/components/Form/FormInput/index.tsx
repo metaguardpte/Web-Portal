@@ -189,6 +189,7 @@ const FormInput = (props: Props) => {
 
     const childrenProps = {
         onFocus: handleFocus,
+        bordered: false,
         onBlur: handleBlur,
         onChange: handleChange,
     };
