@@ -12,14 +12,18 @@ import FormGroup from '@/components/Form/FormGroup';
 import FormInput from '@/components/Form/FormInput';
 import FormItem from '@/components/Form/FormItem';
 import ImportCode from './components/ImportCode';
+import { num64To16 } from '@/utils/radix';
 
 let itemId = '';
+let originKey = '';
 let secretKey = '';
 
 const urlParams = window.location.hash.replace('#', '').split('/');
 if (urlParams.length >= 2) {
     itemId = urlParams[0];
-    secretKey = urlParams[1];
+    originKey = urlParams[1];
+    secretKey = originKey;
+    if (secretKey) secretKey = num64To16(secretKey);
 }
 
 export enum VaultItemType {
@@ -54,32 +58,24 @@ const App: React.FC = () => {
         if (secretKey && itemId) {
             setShowError(false);
             const res = await getShare(itemId, password);
-            if (res.fail) {
+            if (!res.fail && res.payload) {
+                const datas = res.payload;
+                setItemType(() => intl.formatMessage({ id: itemTypeMap[datas.itemType] }));
+                setSharer(datas.email);
+                setExpired(localTime(datas.expiredTime));
+                const detail = JSON.parse(await AES.decryptText(datas.detail, secretKey));
+                setData(detail);
+
+                const importCode = StringToBase64(`${itemId}+${datas.checkCode}+${originKey}`);
+                setImportKey(importCode);
+
+                setNeedAuth(false);
+                return true;
+            } else {
                 if (res.errorId === 'err_authentication_failed') {
                     setNeedAuth(true);
                 } else {
                     setShowError(true);
-                }
-            } else {
-                if (res.payload) {
-                    const datas = res.payload;
-                    setItemType(() =>
-                        intl.formatMessage({ id: itemTypeMap[datas.itemType] }),
-                    );
-                    setSharer(datas.email);
-                    setExpired(localTime(datas.expiredTime));
-                    const detail = JSON.parse(
-                        await AES.decryptText(datas.detail, secretKey),
-                    );
-                    setData(detail);
-
-                    const importCode = StringToBase64(
-                        `${itemId}-${datas.checkCode}-${secretKey}`,
-                    );
-                    setImportKey(importCode);
-
-                    setNeedAuth(false);
-                    return true;
                 }
             }
         }
@@ -107,10 +103,7 @@ const App: React.FC = () => {
     return (
         <>
             <Layout style={{ height: '100%' }}>
-                <div
-                    style={{ backgroundImage: 'url(./background.png)' }}
-                    className={styles.main}
-                >
+                <div style={{ backgroundImage: 'url(./background.png)' }} className={styles.main}>
                     <div className={styles.header}>
                         <Row style={{ marginTop: 50 }}>
                             <Col
@@ -142,8 +135,7 @@ const App: React.FC = () => {
                                 style={{
                                     textAlign: 'right',
                                     paddingTop: 10,
-                                    display:
-                                        !needAuth && !showError ? '' : 'none',
+                                    display: !needAuth && !showError ? '' : 'none',
                                 }}
                             >
                                 <Space className={styles.titleLight}>
@@ -198,13 +190,7 @@ const App: React.FC = () => {
                                         margin: 'auto',
                                     }}
                                 >
-                                    <div>
-                                        {data ? (
-                                            <ItemForm data={data} />
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div>
+                                    <div>{data ? <ItemForm data={data} /> : <></>}</div>
                                 </div>
                             </div>
                             <div
@@ -231,9 +217,7 @@ const App: React.FC = () => {
                                         })}
                                     >
                                         <FormInput>
-                                            <Input.Password
-                                                onChange={onPasswordChange}
-                                            />
+                                            <Input.Password onChange={onPasswordChange} />
                                         </FormInput>
                                     </FormItem>
                                 </FormGroup>
@@ -261,9 +245,7 @@ const App: React.FC = () => {
                         >
                             <div style={{ margin: 'auto' }}>
                                 <div>
-                                    <ExclamationCircleOutlined
-                                        className={styles.eeorIcon}
-                                    />
+                                    <ExclamationCircleOutlined className={styles.eeorIcon} />
                                 </div>
                                 <div>
                                     {intl.formatMessage({
@@ -294,17 +276,14 @@ const App: React.FC = () => {
                         >
                             <div
                                 style={{
-                                    display:
-                                        !needAuth && !showError ? '' : 'none',
+                                    display: !needAuth && !showError ? '' : 'none',
                                 }}
                             >
                                 <ImportCode importKey={importKey} />
                             </div>
                         </div>
                     </div>
-                    <div
-                        style={{ height: 50, color: 'white', display: 'flex' }}
-                    >
+                    <div style={{ height: 50, color: 'white', display: 'flex' }}>
                         <div style={{ margin: 'auto' }}>
                             {intl.formatMessage({
                                 id: 'share.visit.1',

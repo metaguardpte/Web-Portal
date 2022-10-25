@@ -30,7 +30,6 @@ export default defineConfig({
         default: 'en-US',
         baseSeparator: '-',
     },
-    presets: ['./plugins/urlPlugin'],
     proxy: {
         '/api': {
             target: PROXY_URL,

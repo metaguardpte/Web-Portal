@@ -31,15 +31,11 @@ export default (props: { data: ShareDetail }) => {
     const intl = useIntl();
 
     const getInput = (item: ItemFormat) => {
-        const title = intl.formatMessage({ id: item.title });
+        item.title = intl.formatMessage({ id: item.title });
         switch (item.type) {
             case 'text':
                 return (
-                    <FormInput
-                        title={title}
-                        isEdit={false}
-                        copyValue={() => item.text}
-                    >
+                    <FormInput title={item.title} isEdit={false} copyValue={() => item.text}>
                         <Input value={item.text} />
                     </FormInput>
                 );
@@ -47,11 +43,7 @@ export default (props: { data: ShareDetail }) => {
                 return <PasswordInput item={item} />;
             case 'textArea':
                 return (
-                    <FormInput
-                        title={title}
-                        isEdit={false}
-                        copyValue={() => item.text}
-                    >
+                    <FormInput title={item.title} isEdit={false} copyValue={() => item.text}>
                         <Input.TextArea value={item.text} />
                     </FormInput>
                 );
@@ -60,7 +52,7 @@ export default (props: { data: ShareDetail }) => {
             case 'country':
                 return (
                     <FormInput
-                        title={title}
+                        title={item.title}
                         isEdit={false}
                         copyValue={() =>
                             intl.formatMessage({
@@ -134,10 +126,7 @@ export default (props: { data: ShareDetail }) => {
                 >
                     {getIcon()}
                 </div>
-                <Text
-                    ellipsis={{ tooltip: data.title }}
-                    style={{ fontSize: 18, fontWeight: 700 }}
-                >
+                <Text ellipsis={{ tooltip: data.title }} style={{ fontSize: 18, fontWeight: 700 }}>
                     {data.title}
                 </Text>
             </div>
@@ -146,11 +135,7 @@ export default (props: { data: ShareDetail }) => {
                     return (
                         <FormGroup key={key}>
                             {itemGroup.map((item, index) => {
-                                return (
-                                    <FormItem key={index}>
-                                        {getInput(item)}
-                                    </FormItem>
-                                );
+                                return <FormItem key={index}>{getInput(item)}</FormItem>;
                             })}
                         </FormGroup>
                     );

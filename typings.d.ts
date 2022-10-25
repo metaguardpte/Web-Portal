@@ -1,4 +1,1 @@
 import '@umijs/max/typings';
-
-
-

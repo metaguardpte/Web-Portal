@@ -42,30 +42,16 @@ export const getImgUriByType = (cardType: string | undefined) => {
     return `./credit-card-${cardType}.png`;
 };
 
-export const getItemIcon = (
-    itemType: VaultItemType,
-    size: number,
-    tag?: string,
-) => {
+export const getItemIcon = (itemType: VaultItemType, size: number, tag?: string) => {
     let icon;
     if (itemType === VaultItemType.Login) {
         const url = getFaviconUrl(tag!);
 
-        icon = (
-            <Image
-                defaulticon={IconMap(VaultItemType.Login, size)}
-                size={size}
-                src={url}
-            />
-        );
+        icon = <Image defaulticon={IconMap(VaultItemType.Login, size)} size={size} src={url} />;
     } else if (itemType === VaultItemType.CreditCard) {
         const url = getImgUriByType(tag!);
         icon = (
-            <Image
-                defaulticon={IconMap(VaultItemType.CreditCard, size)}
-                size={size}
-                src={url}
-            />
+            <Image defaulticon={IconMap(VaultItemType.CreditCard, size)} size={size} src={url} />
         );
     } else {
         icon = IconMap(itemType, size);

@@ -3,7 +3,7 @@ const dateTimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
 export function getLocalTimeZone(): string {
     let timezone_offset_min = new Date().getTimezoneOffset(),
-        offset_hrs = parseInt(Math.abs(timezone_offset_min / 60)),
+        offset_hrs = Math.abs(timezone_offset_min / 60),
         offset_min = Math.abs(timezone_offset_min % 60);
 
     let offset_hrs_string = offset_hrs.toString(),
@@ -34,9 +34,6 @@ export function useLocalTime() {
 
 export function useLocalTimeSimple() {
     return function (datetime: MomentInput) {
-        return `${moment
-            .utc(datetime)
-            .utcOffset(getLocalTimeZone())
-            .format(dateTimeFormat)}`;
+        return `${moment.utc(datetime).utcOffset(getLocalTimeZone()).format(dateTimeFormat)}`;
     };
 }
