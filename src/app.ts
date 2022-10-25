@@ -37,7 +37,7 @@ const getBaseUrl = () => {
 
 export const request: RequestConfig = {
     baseURL: getBaseUrl(),
-    timeout: 1000,
+    timeout: 10000,
     errorConfig: {
         errorHandler() {},
         errorThrower() {},
