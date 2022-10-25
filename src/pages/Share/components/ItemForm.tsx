@@ -44,7 +44,10 @@ export default (props: { data: ShareDetail }) => {
             case 'textArea':
                 return (
                     <FormInput title={item.title} isEdit={false} copyValue={() => item.text}>
-                        <Input.TextArea value={item.text} />
+                        <Input.TextArea
+                            value={item.text}
+                            autoSize={{ minRows: 2, maxRows: Number.MAX_SAFE_INTEGER }}
+                        />
                     </FormInput>
                 );
             case 'totp':
