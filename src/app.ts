@@ -14,6 +14,7 @@ export const layout = () => {
 };
 
 const getBaseUrl = () => {
+    if (process.env.NODE_ENV === 'development') return process.env.BASE_URL;
     const urlParams = window.location.search.replace('?', '').split('&');
     let env = '';
     urlParams.forEach((p) => {

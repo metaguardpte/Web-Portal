@@ -12,6 +12,7 @@ import FormGroup from '@/components/Form/FormGroup';
 import FormInput from '@/components/Form/FormInput';
 import FormItem from '@/components/Form/FormItem';
 import ImportCode from './components/ImportCode';
+import { num16To64, num64To16 } from '@/utils/radix';
 
 let itemId = '';
 let secretKey = '';
@@ -20,6 +21,7 @@ const urlParams = window.location.hash.replace('#', '').split('/');
 if (urlParams.length >= 2) {
     itemId = urlParams[0];
     secretKey = urlParams[1];
+    if (secretKey) secretKey = num64To16(secretKey);
 }
 
 export enum VaultItemType {
@@ -63,19 +65,13 @@ const App: React.FC = () => {
             } else {
                 if (res.payload) {
                     const datas = res.payload;
-                    setItemType(() =>
-                        intl.formatMessage({ id: itemTypeMap[datas.itemType] }),
-                    );
+                    setItemType(() => intl.formatMessage({ id: itemTypeMap[datas.itemType] }));
                     setSharer(datas.email);
                     setExpired(localTime(datas.expiredTime));
-                    const detail = JSON.parse(
-                        await AES.decryptText(datas.detail, secretKey),
-                    );
+                    const detail = JSON.parse(await AES.decryptText(datas.detail, secretKey));
                     setData(detail);
 
-                    const importCode = StringToBase64(
-                        `${itemId}-${datas.checkCode}-${secretKey}`,
-                    );
+                    const importCode = StringToBase64(`${itemId}-${datas.checkCode}-${secretKey}`);
                     setImportKey(importCode);
 
                     setNeedAuth(false);
@@ -99,18 +95,24 @@ const App: React.FC = () => {
         }
         setVerifyLoading(false);
     };
+    const test = async () => {
+        for (let i = 0; i < 100; i++) {
+            const s = await AES.generateKey();
+            const n64 = num16To64(s);
+            const o16 = num64To16(n64);
+            console.log(o16 === s);
+        }
+    };
 
     useEffect(() => {
         getShareInfo();
+        test();
     }, []);
 
     return (
         <>
             <Layout style={{ height: '100%' }}>
-                <div
-                    style={{ backgroundImage: 'url(./background.png)' }}
-                    className={styles.main}
-                >
+                <div style={{ backgroundImage: 'url(./background.png)' }} className={styles.main}>
                     <div className={styles.header}>
                         <Row style={{ marginTop: 50 }}>
                             <Col
@@ -142,8 +144,7 @@ const App: React.FC = () => {
                                 style={{
                                     textAlign: 'right',
                                     paddingTop: 10,
-                                    display:
-                                        !needAuth && !showError ? '' : 'none',
+                                    display: !needAuth && !showError ? '' : 'none',
                                 }}
                             >
                                 <Space className={styles.titleLight}>
@@ -198,13 +199,7 @@ const App: React.FC = () => {
                                         margin: 'auto',
                                     }}
                                 >
-                                    <div>
-                                        {data ? (
-                                            <ItemForm data={data} />
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div>
+                                    <div>{data ? <ItemForm data={data} /> : <></>}</div>
                                 </div>
                             </div>
                             <div
@@ -231,9 +226,7 @@ const App: React.FC = () => {
                                         })}
                                     >
                                         <FormInput>
-                                            <Input.Password
-                                                onChange={onPasswordChange}
-                                            />
+                                            <Input.Password onChange={onPasswordChange} />
                                         </FormInput>
                                     </FormItem>
                                 </FormGroup>
@@ -261,9 +254,7 @@ const App: React.FC = () => {
                         >
                             <div style={{ margin: 'auto' }}>
                                 <div>
-                                    <ExclamationCircleOutlined
-                                        className={styles.eeorIcon}
-                                    />
+                                    <ExclamationCircleOutlined className={styles.eeorIcon} />
                                 </div>
                                 <div>
                                     {intl.formatMessage({
@@ -294,17 +285,14 @@ const App: React.FC = () => {
                         >
                             <div
                                 style={{
-                                    display:
-                                        !needAuth && !showError ? '' : 'none',
+                                    display: !needAuth && !showError ? '' : 'none',
                                 }}
                             >
                                 <ImportCode importKey={importKey} />
                             </div>
                         </div>
                     </div>
-                    <div
-                        style={{ height: 50, color: 'white', display: 'flex' }}
-                    >
+                    <div style={{ height: 50, color: 'white', display: 'flex' }}>
                         <div style={{ margin: 'auto' }}>
                             {intl.formatMessage({
                                 id: 'share.visit.1',

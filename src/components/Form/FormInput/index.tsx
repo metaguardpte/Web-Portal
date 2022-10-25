@@ -1,13 +1,6 @@
-import { Input, InputProps, Tooltip, Alert, message } from 'antd';
-import {
-    cloneElement,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import { InputProps, Tooltip, Alert, message } from 'antd';
+import { cloneElement, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useIntl } from '@umijs/max';
 import { FormItemContent } from '../FormItem';
 import styles from './index.less';
 import classNames from 'classnames';
@@ -35,19 +28,17 @@ const Buttons = (props: {
     if (props.canCopy) {
         buttons.push({
             icon: (
-                <Tooltip title={Intl.formatMessage({ id: 'common.copy' })}>
+                <Tooltip title={Intl.formatMessage({ id: 'share.copy' })}>
                     <Copy className={'zp-icon'} size={18} />
                 </Tooltip>
             ),
             onclick: () => {
                 navigator.clipboard.writeText(props.copyCallback?.() ?? '');
-                message.success(Intl.formatMessage({ id: 'common.copied' }));
+                message.success(Intl.formatMessage({ id: 'share.copied' }));
             },
         });
     }
-    buttons = props.fieldButtions
-        ? [...buttons, ...props.fieldButtions]
-        : buttons;
+    buttons = props.fieldButtions ? [...buttons, ...props.fieldButtions] : buttons;
     return (
         <div style={{ display: 'flex' }}>
             {buttons.reverse().map((btn, index) => (
@@ -121,8 +112,7 @@ const FormInput = (props: Props) => {
                 setValidate(true);
             })
             .catch((e) => {
-                if (e && e.status)
-                    setMsg(<Alert type="error" message={e.help} />);
+                if (e && e.status) setMsg(<Alert type="error" message={e.help} />);
                 setValidate(false);
             });
     }, [value]);
@@ -138,13 +128,7 @@ const FormInput = (props: Props) => {
     };
 
     useEffect(() => {
-        if (
-            !(
-                formatter &&
-                typeof inputRef.current?.setSelectionRange === 'function'
-            )
-        )
-            return;
+        if (!(formatter && typeof inputRef.current?.setSelectionRange === 'function')) return;
         const { formattedValue, separator } = formatter(preValue, currentValue);
 
         let curPos = cursor;
@@ -157,8 +141,7 @@ const FormInput = (props: Props) => {
                 curPos = cursor;
             }
         } else if (formattedValue.length > preValue.length) {
-            curPos =
-                formattedValue[cursor - 1] === separator ? cursor + 1 : cursor;
+            curPos = formattedValue[cursor - 1] === separator ? cursor + 1 : cursor;
         } else {
             curPos = cursor;
         }
@@ -206,7 +189,6 @@ const FormInput = (props: Props) => {
 
     const childrenProps = {
         onFocus: handleFocus,
-        bordered: false,
         onBlur: handleBlur,
         onChange: handleChange,
     };
@@ -219,9 +201,7 @@ const FormInput = (props: Props) => {
     const Title = () => {
         return title || props.label ? (
             <div className={styles.label}>
-                {props.label ?? (
-                    <FormattedMessage id={title}></FormattedMessage>
-                )}
+                {props.label ?? title}
                 {isRequiredField ? '*' : ''}
             </div>
         ) : (
@@ -241,11 +221,7 @@ const FormInput = (props: Props) => {
             style={{
                 position: 'relative',
                 width: '100%',
-                border: !validate
-                    ? '1px solid #ff4d4f'
-                    : focus
-                    ? '1px solid #2AA7FF'
-                    : '',
+                border: !validate ? '1px solid #ff4d4f' : focus ? '1px solid #2AA7FF' : '',
                 ...wrapperStyle,
                 backgroundColor: showModal
                     ? 'rgba(0, 0, 0, 0.05)'
@@ -291,9 +267,7 @@ const FormInput = (props: Props) => {
             >
                 <div
                     style={{
-                        height: innerStyle?.minHeight
-                            ? +innerStyle.minHeight * 0.25 + 5
-                            : 24,
+                        height: innerStyle?.minHeight ? +innerStyle.minHeight * 0.25 + 5 : 24,
                         display:
                             props.title !== undefined ||
                             props.label !== undefined ||

@@ -1,9 +1,5 @@
 import FormInput from '@/components/Form/FormInput';
-import {
-    EyeInvisibleOutlined,
-    EyeOutlined,
-    MoreOutlined,
-} from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import { useState } from 'react';
 import { ItemFormat } from './ItemForm';
@@ -22,9 +18,7 @@ const PasswordInput = (props: { item: ItemFormat }) => {
     const handleShowPwd = (show: boolean) => {
         setIsShowPassword(show);
         if (show) {
-            setPassword(
-                <Input style={{ height: 30 }} value={props.item.text} />,
-            );
+            setPassword(<Input style={{ height: 30 }} value={props.item.text} />);
         } else {
             setPassword(PasswordIcon);
         }

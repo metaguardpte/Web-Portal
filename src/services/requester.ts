@@ -46,9 +46,7 @@ function addContentTypeHeader(options?: { [k: string]: any }) {
 
 export const onceExecutor = () => {
     let preResolve: any;
-    return <T = any>(
-        requester: () => Promise<T>,
-    ): Promise<T & { skip?: boolean }> => {
+    return <T = any>(requester: () => Promise<T>): Promise<T & { skip?: boolean }> => {
         if (preResolve) {
             preResolve({ skip: true });
         }
@@ -61,11 +59,7 @@ export const onceExecutor = () => {
 };
 
 export const requester = {
-    get: async function <T>(
-        path: string,
-        params?: {},
-        options?: { [k: string]: any },
-    ) {
+    get: async function <T>(path: string, params?: {}, options?: { [k: string]: any }) {
         const res = await request<ResponseType<T>>(path, {
             method: 'GET',
             params: params,
@@ -74,11 +68,7 @@ export const requester = {
         return new Result<T>(res);
     },
 
-    post: async function <T>(
-        path: string,
-        payload?: any,
-        options?: { [k: string]: any },
-    ) {
+    post: async function <T>(path: string, payload?: any, options?: { [k: string]: any }) {
         const res = await request<ResponseType<T>>(path, {
             method: 'POST',
             data: payload,
@@ -87,11 +77,7 @@ export const requester = {
         return new Result<T>(res);
     },
 
-    put: async function <T>(
-        path: string,
-        payload: any,
-        options?: { [k: string]: any },
-    ) {
+    put: async function <T>(path: string, payload: any, options?: { [k: string]: any }) {
         const res = await request<ResponseType<T>>(path, {
             method: 'PUT',
             data: payload,
@@ -100,11 +86,7 @@ export const requester = {
         return new Result<T>(res);
     },
 
-    patch: async function <T>(
-        path: string,
-        payload: any,
-        options?: { [k: string]: any },
-    ) {
+    patch: async function <T>(path: string, payload: any, options?: { [k: string]: any }) {
         const res = await request<ResponseType<T>>(path, {
             method: 'PATCH',
             data: payload,
@@ -113,11 +95,7 @@ export const requester = {
         return new Result<T>(res);
     },
 
-    delete: async function <T>(
-        path: string,
-        payload?: any,
-        options?: { [k: string]: any },
-    ) {
+    delete: async function <T>(path: string, payload?: any, options?: { [k: string]: any }) {
         const res = await request<ResponseType<T>>(path, {
             method: 'DELETE',
             data: payload,
