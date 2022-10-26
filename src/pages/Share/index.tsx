@@ -1,5 +1,5 @@
-import { HistoryOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Layout, Row, Col, Space, Input, Button, message } from 'antd';
+import { ClockCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Space, Input, Button, message, Form } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from '@umijs/max';
 import { AES } from '@/utils/crypto/cryptoUntity';
@@ -51,6 +51,7 @@ const App: React.FC = () => {
     const [showError, setShowError] = useState(false);
     const [verifyLoading, setVerifyLoading] = useState(false);
     const [itemType, setItemType] = useState('');
+    const [pinError, setPinError] = useState('');
 
     const localTime = useLocalTimeSimple();
 
@@ -83,6 +84,7 @@ const App: React.FC = () => {
     };
 
     const onPasswordChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPinError('');
         let v = e.target.value;
         if (v) v = await AES.digest(v);
         setPassword(v);
@@ -91,7 +93,7 @@ const App: React.FC = () => {
     const verifyPin = async () => {
         setVerifyLoading(true);
         if (!(await getShareInfo())) {
-            message.error(intl.formatMessage({ id: 'share.auth.failed' }));
+            setPinError(intl.formatMessage({ id: 'share.auth.failed' }));
         }
         setVerifyLoading(false);
     };
@@ -109,7 +111,7 @@ const App: React.FC = () => {
                             <Col
                                 style={{
                                     fontSize: 24,
-                                    fontWeight: 700,
+                                    fontWeight: 600,
                                     paddingLeft: 200,
                                     display: 'flex',
                                 }}
@@ -138,8 +140,8 @@ const App: React.FC = () => {
                                     display: !needAuth && !showError ? '' : 'none',
                                 }}
                             >
-                                <Space className={styles.titleLight}>
-                                    <HistoryOutlined />
+                                <Space className={styles.titleLight} style={{ fontSize: 18 }}>
+                                    <ClockCircleOutlined />
                                     <div>
                                         {intl.formatMessage({
                                             id: 'share.expired.tip',
@@ -173,10 +175,13 @@ const App: React.FC = () => {
                                             color: '#464AFF',
                                         }}
                                     >
+                                        {intl.formatMessage({
+                                            id: 'share.from1',
+                                        })}{' '}
                                         {sharer}{' '}
                                         {intl.formatMessage(
                                             {
-                                                id: 'share.from',
+                                                id: 'share.from2',
                                             },
                                             {
                                                 itemType: itemType,
@@ -186,7 +191,7 @@ const App: React.FC = () => {
                                 </div>
                                 <div
                                     style={{
-                                        width: 600,
+                                        width: 594,
                                         margin: 'auto',
                                     }}
                                 >
@@ -196,7 +201,7 @@ const App: React.FC = () => {
                             <div
                                 style={{
                                     display: needAuth ? '' : 'none',
-                                    width: 600,
+                                    width: 594,
                                     margin: 'auto',
                                 }}
                             >
@@ -212,17 +217,22 @@ const App: React.FC = () => {
                                         id: 'share.pin.title',
                                     })}
                                 </div>
-                                <FormGroup>
-                                    <FormItem
-                                        label={intl.formatMessage({
-                                            id: 'share.pin.code',
-                                        })}
-                                    >
-                                        <FormInput>
-                                            <Input.Password onChange={onPasswordChange} />
-                                        </FormInput>
-                                    </FormItem>
-                                </FormGroup>
+                                <Form>
+                                    <FormGroup>
+                                        <FormItem
+                                            label={intl.formatMessage({
+                                                id: 'share.pin.code',
+                                            })}
+                                            hasFeedback
+                                            validateStatus={'error'}
+                                            help={pinError}
+                                        >
+                                            <FormInput>
+                                                <Input.Password onChange={onPasswordChange} />
+                                            </FormInput>
+                                        </FormItem>
+                                    </FormGroup>
+                                </Form>
                                 <div>
                                     <Button
                                         size="small"
@@ -247,7 +257,7 @@ const App: React.FC = () => {
                         >
                             <div style={{ margin: 'auto' }}>
                                 <div>
-                                    <ExclamationCircleOutlined className={styles.eeorIcon} />
+                                    <ExclamationCircleOutlined className={styles.errorIcon} />
                                 </div>
                                 <div className={styles.titleHeavy} style={{ fontSize: 16 }}>
                                     {intl.formatMessage({

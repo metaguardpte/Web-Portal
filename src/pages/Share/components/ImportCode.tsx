@@ -35,7 +35,7 @@ const ImportCode = (props: Props) => {
                 <div
                     style={{
                         width: 'fit-content',
-                        marginLeft: 172,
+                        marginLeft: 177,
                         textAlign: 'center',
                     }}
                 >
@@ -57,8 +57,8 @@ const ImportCode = (props: Props) => {
                     </div>
                 </div>
             </Col>
-            <Col span={16} style={{ textAlign: 'left' }}>
-                <div className={styles.titleHeavy}>
+            <Col span={16} style={{ textAlign: 'left', marginLeft: -10 }}>
+                <div className={styles.titleMax} style={{ marginBottom: 10 }}>
                     {intl.formatMessage({
                         id: 'share.qrcode.title',
                     })}
@@ -68,7 +68,7 @@ const ImportCode = (props: Props) => {
                         id: 'share.qrcode.tip',
                     })}
                 </div>
-                <div style={{ width: 400 }}>
+                <div style={{ width: 373 }}>
                     <Input
                         className={styles.importInput}
                         value={importKey}
@@ -87,10 +87,10 @@ const ImportCode = (props: Props) => {
                     />
                 </div>
                 <div className={styles.download}>
-                    <DownloadOutlined />{' '}
+                    <DownloadOutlined style={{ fontSize: 18 }} />{' '}
                     {intl.formatMessage({
                         id: 'share.qrcode.have',
-                    })}
+                    })}{' '}
                     ?{' '}
                     <a
                         href="https://www.zpassapp.com/download/"
