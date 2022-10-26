@@ -105,14 +105,14 @@ const FormInput = (props: Props) => {
         value
             ?.then((res: any) => {
                 if (res && res.status) {
-                    setMsg(<Alert type={res.status} message={res.help} />);
+                    setMsg(<div style={{ color: '#E34513' }}>{res.help}</div>);
                 } else {
                     setMsg('');
                 }
                 setValidate(true);
             })
             .catch((e) => {
-                if (e && e.status) setMsg(<Alert type="error" message={e.help} />);
+                if (e && e.status) setMsg(<div style={{ color: '#E34513' }}>{e.help}</div>);
                 setValidate(false);
             });
     }, [value]);

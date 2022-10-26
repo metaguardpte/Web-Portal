@@ -129,7 +129,7 @@ export default (props: { data: ShareDetail }) => {
                 >
                     {getIcon()}
                 </div>
-                <Text ellipsis={{ tooltip: data.title }} style={{ fontSize: 18, fontWeight: 700 }}>
+                <Text ellipsis={{ tooltip: data.title }} style={{ fontSize: 20, fontWeight: 600 }}>
                     {data.title}
                 </Text>
             </div>
