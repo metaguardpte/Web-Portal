@@ -16,7 +16,7 @@
     "share.qrcode.have": "Not have ZPass yet",
     "share.qrcode.download": "Click here download",
     "share.type.login": "login",
-    "share.type.secureNodes": "secure notes",
+    "share.type.secureNode": "secure note",
     "share.type.creditCard": "credit card",
     "share.type.identity": "identity",
     "share.auth.failed": "Incorrect PIN code",
