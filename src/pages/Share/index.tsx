@@ -1,5 +1,5 @@
 import { ClockCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Layout, Row, Col, Space, Input, Button, message, Form } from 'antd';
+import { Layout, Row, Col, Space, Input, Button, Select, Form } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from '@umijs/max';
 import { AES } from '@/utils/crypto/cryptoUntity';
@@ -13,6 +13,8 @@ import FormInput from '@/components/Form/FormInput';
 import FormItem from '@/components/Form/FormItem';
 import ImportCode from './components/ImportCode';
 import { num64To16 } from '@/utils/radix';
+
+const { Option } = Select;
 
 let itemId = '';
 let originKey = '';
@@ -35,7 +37,7 @@ export enum VaultItemType {
 
 const itemTypeMap = {
     0: 'share.type.login',
-    1: 'share.type.secureNodes',
+    1: 'share.type.secureNode',
     2: 'share.type.creditCard',
     3: 'share.type.identity',
 };
@@ -52,6 +54,7 @@ const App: React.FC = () => {
     const [verifyLoading, setVerifyLoading] = useState(false);
     const [itemType, setItemType] = useState('');
     const [pinError, setPinError] = useState('');
+    const [devMod, setDevMod] = useState(false);
 
     const localTime = useLocalTimeSimple();
 
@@ -100,11 +103,41 @@ const App: React.FC = () => {
 
     useEffect(() => {
         getShareInfo();
+        const onKeydown = (e: KeyboardEvent) => {
+            if (e.key === 'Z' && e.ctrlKey) {
+                setDevMod((s) => !s);
+            }
+        };
+        window.addEventListener('keydown', onKeydown);
+        return () => {
+            window.removeEventListener('keydown', onKeydown);
+        };
     }, []);
+
+    const onModChange = (e: string) => {
+        sessionStorage.setItem('backMod', e);
+        location.reload();
+    };
 
     return (
         <>
             <Layout style={{ height: '100%' }}>
+                {devMod ? (
+                    <div>
+                        <Select
+                            defaultValue={sessionStorage.getItem('backMod') ?? 'default'}
+                            onChange={(e) => onModChange(e)}
+                            style={{ position: 'absolute', right: 0, width: 100 }}
+                        >
+                            <Option value={'default'}>default</Option>
+                            <Option value={'dev'}>dev</Option>
+                            <Option value={'test'}>test</Option>
+                            <Option value={'pre'}>pre</Option>
+                        </Select>
+                    </div>
+                ) : (
+                    <></>
+                )}
                 <div style={{ backgroundImage: 'url(./background.png)' }} className={styles.main}>
                     <div className={styles.header}>
                         <Row style={{ marginTop: 50 }}>

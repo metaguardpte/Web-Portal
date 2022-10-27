@@ -14,17 +14,7 @@ export const layout = () => {
 };
 
 const getBaseUrl = () => {
-    if (process.env.NODE_ENV === 'development') return process.env.BASE_URL;
-    const urlParams = window.location.search.replace('?', '').split('&');
-    let env = '';
-    urlParams.forEach((p) => {
-        if (p) {
-            const s = p.split('=');
-            if (s[0] === 'env') {
-                env = s[1];
-            }
-        }
-    });
+    const env = sessionStorage.getItem('backMod');
     if (env === 'dev') {
         return 'https://l8ee0j8yb8.execute-api.ap-southeast-1.amazonaws.com/Prod';
     } else if (env === 'test') {
