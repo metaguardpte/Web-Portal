@@ -20,7 +20,7 @@ const getBaseUrl = () => {
     } else if (env === 'test') {
         return 'https://ro8d3r7nxb.execute-api.ap-southeast-1.amazonaws.com/Prod';
     } else if (env === 'pre') {
-        return 'https://ro8d3r7nxb.execute-api.ap-southeast-1.amazonaws.com/Prod';
+        return 'https://i3j0hcc2q7.execute-api.ap-southeast-1.amazonaws.com/Prod';
     }
     return 'https://zv42of7gd4.execute-api.ap-southeast-1.amazonaws.com';
 };
