@@ -1,0 +1,23 @@
+{
+    "vault.note": "Note",
+    "vault.loginUserName": "Login Name",
+    "vault.loginPassword": "Login Password",
+    "vault.loginUri": "Login Page URL",
+    "vault.oneTimePassword": "Time-based One-Time Password (TOTP)",
+    "vault.creditCard.holder": "Cardholder Name",
+    "vault.creditCard.number": "Card Number",
+    "vault.creditCard.expiry": "Expiry Date",
+    "vault.creditCard.cvv": "CVV",
+    "vault.creditCard.zipOrPostalCode": "Zip or Postal Code",
+    "vault.creditCard.pin": "Card PIN",
+    "vault.secureNote.form.note": "Secure Note",
+    "vault.personalInfo.form.fullName": "Full Name",
+    "vault.personalInfo.form.email": "Email",
+    "vault.personalInfo.form.phone": "Phone",
+    "vault.personalInfo.form.address1": "Address Line 1",
+    "vault.personalInfo.form.address2": "Address Line 2",
+    "vault.personalInfo.form.city": "City",
+    "vault.personalInfo.form.province": "State or Province",
+    "vault.personalInfo.form.zipCode": "ZIP or Postal Code",
+    "vault.personalInfo.form.country": "Country or Region"
+}
