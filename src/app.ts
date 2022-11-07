@@ -22,7 +22,7 @@ const getBaseUrl = () => {
     } else if (env === 'pre') {
         return 'https://i3j0hcc2q7.execute-api.ap-southeast-1.amazonaws.com/Prod';
     }
-    return 'https://zv42of7gd4.execute-api.ap-southeast-1.amazonaws.com';
+    return 'https://zv42of7gd4.execute-api.ap-southeast-1.amazonaws.com/Prod';
 };
 
 export const request: RequestConfig = {
